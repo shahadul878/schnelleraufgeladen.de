@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schnelleraufgeladen.de - Handyguthaben & Gutscheine in Sekunden</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="assets/img/logo.png" alt="logo">
+            </div>
+            <nav class="nav">
+                <a href="#guthaben" class="nav-link">Guthaben aufladen</a>
+                <a href="#gutscheine" class="nav-link">Gutscheine kaufen</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Handyguthaben & <br><strong>Gutscheine</strong> in <strong>Sekunden</strong> Sicher & Sofort</h1>
+                    <p>Lade jedes Netz direkt auf oder verschenke digitale Gutscheine für Top Marken</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" id="guthabenBtn">Hier Guthaben aufladen</button>
+                        <button class="btn btn-secondary" id="gutscheineBtn">Gutscheine kaufen</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <img src="assets/img/hero-image.png" alt="Hero Image">
+                </div>
+            </div>
+             <!-- 6-Step Form Modal for Guthaben -->
+            <div id="formModal" class="form-modal">
+                <div class="form-modal-content">
+                    <!-- Progress Indicator -->
+                    <div class="progress-indicator">
+                        <div class="progress-line">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-steps">
+                            <div class="step-circle active" data-step="1">
+                                <span>1</span>
+                            </div>
+                            <div class="step-circle" data-step="2">
+                                <span>2</span>
+                            </div>
+                            <div class="step-circle" data-step="3">
+                                <span>3</span>
+                            </div>
+                            <div class="step-circle" data-step="4">
+                                <span>4</span>
+                            </div>
+                            <div class="step-circle" data-step="5">
+                                <span>5</span>
+                            </div>
+                            <div class="step-circle" data-step="6">
+                                <span>6</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Steps -->
+                    <div class="form-steps">
+                        <!-- Step 1: Phone Number -->
+                        <div class="form-step active" data-step="1">
+                            <div class="step-content">
+                                <div class="content-wrapper">
+                                    <h2>Welche Nummer möchten Sie aufladen?</h2>
+                                    <p>Geben Sie bitte hier die Rufnummer ein, die Sie aufladen möchten. Wählen Sie Ihr Land und lassen Sie die Ländervorwahl weg. Beispiel: 1701299979</p>
+                                </div>
+                                <div class="form-wrapper">
+                                    <div class="phone-input-group">
+                                        <div class="country-select-wrapper">
+                                            <div class="flag-icon-container">
+                                                <span class="flag-icon" id="flagIcon1">🇩🇪</span>
+                                            </div>
+                                            <select id="countrySelector1" class="country-select">
+                                                <option value="germany" data-prefix="+49">🇩🇪 Deutschland (+49)</option>
+                                                <option value="austria" data-prefix="+43">🇦🇹 Österreich (+43)</option>
+                                                <option value="switzerland" data-prefix="+41">🇨🇭 Schweiz (+41)</option>
+                                                <option value="netherlands" data-prefix="+31">🇳🇱 Nederland (+31)</option>
+                                                <option value="belgium" data-prefix="+32">🇧🇪 België (+32)</option>
+                                                <option value="france" data-prefix="+33">🇫🇷 France (+33)</option>
+                                                <option value="italy" data-prefix="+39">🇮🇹 Italia (+39)</option>
+                                                <option value="spain" data-prefix="+34">🇪🇸 España (+34)</option>
+                                            </select>
+                                        </div>
+                                        <input type="tel" id="phoneNumber" placeholder="Handynummer eingeben" class="phone-input">
+                                    </div>
+                                    <button class="btn btn-primary next-step" data-next="2">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Provider Selection -->
+                        <div class="form-step" data-step="2">
+                            <div class="step-content">
+                                <h2>Wählen Sie Ihren Anbieter</h2>
+                                <p>Wählen Sie Ihren Mobilfunkanbieter aus der Liste aus.</p>
+                                
+                                <div class="provider-selection">
+                                    <div class="provider-option" data-provider="vodafone">
+                                        <div class="provider-logo">Vodafone</div>
+                                    </div>
+                                    <div class="provider-option" data-provider="o2">
+                                        <div class="provider-logo">O2</div>
+                                    </div>
+                                    <div class="provider-option" data-provider="lyca">
+                                        <div class="provider-logo">Lyca Mobile</div>
+                                    </div>
+                                    <div class="provider-option" data-provider="blau">
+                                        <div class="provider-logo">Blau</div>
+                                    </div>
+                                    <div class="provider-option" data-provider="congstar">
+                                        <div class="provider-logo">congstar</div>
+                                    </div>
+                                    <div class="provider-option" data-provider="eplus">
+                                        <div class="provider-logo">e-plus+</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="1">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="3">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Amount Selection -->
+                        <div class="form-step" data-step="3">
+                            <div class="step-content">
+                                <h2>Wählen Sie den Betrag</h2>
+                                <p>Wählen Sie den gewünschten Aufladebetrag aus.</p>
+                                
+                                <div class="amount-selection">
+                                    <div class="amount-option" data-amount="5">
+                                        <span class="amount">5€</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="10">
+                                        <span class="amount">10€</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="15">
+                                        <span class="amount">15€</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="20">
+                                        <span class="amount">20€</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="25">
+                                        <span class="amount">25€</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="50">
+                                        <span class="amount">50€</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="2">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="4">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Payment Method -->
+                        <div class="form-step" data-step="4">
+                            <div class="step-content">
+                                <h2>Zahlungsmethode wählen</h2>
+                                <p>Wählen Sie Ihre bevorzugte Zahlungsmethode aus.</p>
+                                
+                                <div class="payment-selection">
+                                    <div class="payment-option" data-payment="paypal">
+                                        <i class="fab fa-paypal"></i>
+                                        <span>PayPal</span>
+                                    </div>
+                                    <div class="payment-option" data-payment="card">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Kreditkarte</span>
+                                    </div>
+                                    <div class="payment-option" data-payment="sofort">
+                                        <span class="sofort-text">SOFORT</span>
+                                    </div>
+                                    <div class="payment-option" data-payment="bank">
+                                        <i class="fas fa-university"></i>
+                                        <span>Banküberweisung</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="3">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="5">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Review -->
+                        <div class="form-step" data-step="5">
+                            <div class="step-content">
+                                <h2>Überprüfen Sie Ihre Bestellung</h2>
+                                <p>Bitte überprüfen Sie alle Angaben vor der Bestätigung.</p>
+                                
+                                <div class="order-summary">
+                                    <div class="summary-item">
+                                        <span class="label">Telefonnummer:</span>
+                                        <span class="value" id="summaryPhone"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Anbieter:</span>
+                                        <span class="value" id="summaryProvider"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Betrag:</span>
+                                        <span class="value" id="summaryAmount"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Zahlungsmethode:</span>
+                                        <span class="value" id="summaryPayment"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="4">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="6">Bestätigen</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Confirmation -->
+                        <div class="form-step" data-step="6">
+                            <div class="step-content">
+                                <div class="success-animation">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h2>Bestellung erfolgreich!</h2>
+                                <p>Ihre Aufladung wird in Kürze bearbeitet. Sie erhalten eine Bestätigung per E-Mail.</p>
+                                
+                                <div class="order-details">
+                                    <div class="detail-item">
+                                        <span class="label">Bestellnummer:</span>
+                                        <span class="value" id="orderNumber"></span>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary" id="closeForm">Fertig</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7-Step Voucher Form Modal -->
+            <div id="voucherModal" class="form-modal voucher-modal">
+                <div class="form-modal-content voucher-content">
+                    <!-- Progress Indicator -->
+                    <div class="progress-indicator">
+                        <div class="progress-line">
+                            <div class="progress-fill" id="voucherProgressFill"></div>
+                        </div>
+                        <div class="progress-steps">
+                            <div class="step-circle active" data-step="1">
+                                <span>1</span>
+                            </div>
+                            <div class="step-circle" data-step="2">
+                                <span>2</span>
+                            </div>
+                            <div class="step-circle" data-step="3">
+                                <span>3</span>
+                            </div>
+                            <div class="step-circle" data-step="4">
+                                <span>4</span>
+                            </div>
+                            <div class="step-circle" data-step="5">
+                                <span>5</span>
+                            </div>
+                            <div class="step-circle" data-step="6">
+                                <span>6</span>
+                            </div>
+                            <div class="step-circle" data-step="7">
+                                <span>7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Steps -->
+                    <div class="form-steps">
+                        <!-- Step 1: Phone Number -->
+                        <div class="form-step active" data-step="1">
+                            <div class="step-content">
+                                <div class="content-wrapper">
+                                    <h2>Welche Nummer möchten Sie aufladen?</h2>
+                                    <p>Geben Sie bitte hier die Rufnummer ein, die Sie aufladen möchten. Wählen Sie Ihr Land und lassen Sie die Ländervorwahl weg. Beispiel: 1701299979</p>
+                                </div>
+                                <div class="form-wrapper">
+                                    <div class="phone-input-group">
+                                        <div class="country-select-wrapper">
+                                            <div class="flag-icon-container">
+                                                <span class="flag-icon" id="flagIcon2">🇩🇪</span>
+                                            </div>
+                                            <select id="countrySelector2" class="country-select">
+                                                <option value="germany" data-prefix="+49">🇩🇪 Deutschland (+49)</option>
+                                                <option value="austria" data-prefix="+43">🇦🇹 Österreich (+43)</option>
+                                                <option value="switzerland" data-prefix="+41">🇨🇭 Schweiz (+41)</option>
+                                                <option value="netherlands" data-prefix="+31">🇳🇱 Nederland (+31)</option>
+                                                <option value="belgium" data-prefix="+32">🇧🇪 België (+32)</option>
+                                                <option value="france" data-prefix="+33">🇫🇷 France (+33)</option>
+                                                <option value="italy" data-prefix="+39">🇮🇹 Italia (+39)</option>
+                                                <option value="spain" data-prefix="+34">🇪🇸 España (+34)</option>
+                                            </select>
+                                        </div>
+                                        <input type="tel" id="voucherPhoneNumber" placeholder="Handynummer eingeben" class="phone-input">
+                                    </div>
+                                    <button class="btn btn-primary next-step" data-next="2">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Voucher Selection -->
+                        <div class="form-step" data-step="2">
+                            <div class="step-content">
+                                <h2>Select voucher</h2>
+                                <p>Wählen Sie Ihren gewünschten Gutschein aus.</p>
+                                
+                                <div class="voucher-selection">
+                                    <div class="voucher-option" data-voucher="rewe">
+                                        <div class="voucher-logo">REWE</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="douglas">
+                                        <div class="voucher-logo">DOUGLAS</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="ikea">
+                                        <div class="voucher-logo">IKEA</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="amazon">
+                                        <div class="voucher-logo">amazon</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="netflix">
+                                        <div class="voucher-logo">NETFLIX</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="zalando">
+                                        <div class="voucher-logo">zalando</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="rossmann">
+                                        <div class="voucher-logo">ROSSMANN</div>
+                                    </div>
+                                    <div class="voucher-option" data-voucher="googleplay">
+                                        <div class="voucher-logo">Google Play</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="1">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="3">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Amount Selection -->
+                        <div class="form-step" data-step="3">
+                            <div class="step-content">
+                                <h2>Wählen Sie einen Betrag</h2>
+                                <p>Wählen Sie bitte hier die Höhe des Guthabens, das Sie aufladen möchten aus.</p>
+                                
+                                <div class="amount-selection">
+                                    <div class="amount-option" data-amount="15">
+                                        <span class="amount">15 €</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="25">
+                                        <span class="amount">25 €</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="50">
+                                        <span class="amount">50 €</span>
+                                    </div>
+                                    <div class="amount-option" data-amount="100">
+                                        <span class="amount">100 €</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="2">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="4">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Payment Method -->
+                        <div class="form-step" data-step="4">
+                            <div class="step-content">
+                                <h2>Bezahlmethode auswählen</h2>
+                                <p>Wählen Sie Ihre bevorzugte Zahlungsmethode aus.</p>
+                                
+                                <div class="payment-selection">
+                                    <div class="payment-option" data-payment="sofort">
+                                        <div class="sofort-logo">
+                                            <span class="sofort-text">SOFORT</span>
+                                            <span class="sofort-subtext">ÜBERWEISUNG</span>
+                                        </div>
+                                    </div>
+                                    <div class="payment-option" data-payment="paysafecard">
+                                        <div class="paysafe-logo">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>paysafecard</span>
+                                        </div>
+                                    </div>
+                                    <div class="payment-option" data-payment="sparkasse">
+                                        <div class="sparkasse-logo">
+                                            <span>Sparkasse / Überweisung</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="3">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="5">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Phone Verification -->
+                        <div class="form-step" data-step="5">
+                            <div class="step-content">
+                                <h2>Handynummer verifizieren</h2>
+                                <p>Um die Bestellung abschließen zu können, bekommen Sie nun eine Bestätigung auf Ihr Handy. Bitte geben Sie diese jetzt ein, um den Vorgang abzuschließen.</p>
+                                
+                                <div class="phone-input-group">
+                                    <div class="country-select-wrapper">
+                                        <div class="flag-icon-container">
+                                            <span class="flag-icon" id="flagIcon3">🇩🇪</span>
+                                        </div>
+                                        <select id="countrySelector3" class="country-select">
+                                            <option value="germany" data-prefix="+49">🇩🇪 Deutschland (+49)</option>
+                                            <option value="austria" data-prefix="+43">🇦🇹 Österreich (+43)</option>
+                                            <option value="switzerland" data-prefix="+41">🇨🇭 Schweiz (+41)</option>
+                                            <option value="netherlands" data-prefix="+31">🇳🇱 Nederland (+31)</option>
+                                            <option value="belgium" data-prefix="+32">🇧🇪 België (+32)</option>
+                                            <option value="france" data-prefix="+33">🇫🇷 France (+33)</option>
+                                            <option value="italy" data-prefix="+39">🇮🇹 Italia (+39)</option>
+                                            <option value="spain" data-prefix="+34">🇪🇸 España (+34)</option>
+                                        </select>
+                                    </div>
+                                    <input type="tel" id="verificationPhone" placeholder="Handynummer eingeben" class="phone-input">
+                                </div>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="4">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="6">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Order Completion -->
+                        <div class="form-step" data-step="6">
+                            <div class="step-content">
+                                <h2>Bestellung abschließen</h2>
+                                <p>Bitte geben Sie hier Ihren SMS Code ein & bestätigen Sie mit "Weiter"</p>
+                                
+                                <div class="sms-input-group">
+                                    <input type="text" id="smsCode" placeholder="SMS Code eingeben" class="sms-input">
+                                </div>
+                                
+                                <div class="order-summary">
+                                    <div class="summary-item">
+                                        <span class="label">Aufzuladene Mobilnummer:</span>
+                                        <span class="value" id="voucherSummaryPhone"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Gewähltes Guthaben:</span>
+                                        <span class="value" id="voucherSummaryAmount"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Zahlungsart:</span>
+                                        <span class="value" id="voucherSummaryPayment"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Gesamtsumme:</span>
+                                        <span class="value" id="voucherSummaryTotal"></span>
+                                    </div>
+                                </div>
+                                
+                                <p class="disclaimer">Mit Ihrer Bestellung stimmen Sie unseren AGB und Widerrufsbestimmungen zu.</p>
+                                
+                                <div class="step-buttons">
+                                    <button class="btn btn-secondary prev-step" data-prev="5">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="7">Weiter</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 7: Success -->
+                        <div class="form-step" data-step="7">
+                            <div class="step-content">
+                                <div class="success-animation">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h2>Thank you for your order!</h2>
+                                <p>We've received your purchase and are getting it ready to ship.</p>
+                                
+                                <button class="btn btn-primary" id="closeVoucherForm">Continue Shopping</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>So funktioniert's</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <svg width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M73.0536 11.718H65.7097V8.91256C65.7097 8.0922 65.0442 7.42725 64.2243 7.42725C63.404 7.42725 62.739 8.0922 62.739 8.91256V11.718H37.6539V8.91256C37.6539 8.0922 36.9889 7.42725 36.1686 7.42725C35.3487 7.42725 34.6838 8.0922 34.6838 8.91256V11.718H26.8447C22.3805 11.7231 18.763 15.3401 18.7578 19.8044V44.5591C18.7578 45.3794 19.4233 46.0444 20.2431 46.0444C21.0635 46.0444 21.7284 45.3794 21.7284 44.5591V34.8222H78.1694V67.6638C78.1663 70.4878 75.8776 72.7764 73.0536 72.7795H26.8447C24.0202 72.7764 21.7315 70.4878 21.7284 67.6638V59.0818C21.7284 58.262 21.0635 57.5965 20.2431 57.5965C19.4233 57.5965 18.7578 58.262 18.7578 59.0818V67.6638C18.763 72.128 22.3805 75.745 26.8447 75.7502H73.0536C77.5178 75.745 81.1348 72.128 81.14 67.6638V19.8044C81.1348 15.3401 77.5178 11.7231 73.0536 11.718ZM21.7284 31.8516V19.8044C21.7315 16.9803 24.0202 14.6917 26.8447 14.6886H34.6838V18.7212C32.4468 19.4517 31.073 21.6991 31.4421 24.0228C31.8123 26.3465 33.8159 28.0564 36.1686 28.0564C38.5217 28.0564 40.5254 26.3465 40.8956 24.0228C41.2647 21.6991 39.8909 19.4517 37.6539 18.7212V14.6886H62.739V18.7212C60.502 19.4517 59.1282 21.6991 59.4973 24.0228C59.8675 26.3465 61.8712 28.0564 64.2243 28.0564C66.577 28.0564 68.5806 26.3465 68.9508 24.0228C69.3205 21.6991 67.9467 19.4517 65.7097 18.7212V14.6886H73.0536C75.8776 14.6917 78.1663 16.9803 78.1694 19.8044V31.8516H21.7284ZM36.1686 21.4549C37.1712 21.4549 37.9843 22.2675 37.9843 23.2701C37.9843 24.2727 37.1712 25.0853 36.1686 25.0853C35.1665 25.0853 34.3534 24.2727 34.3534 23.2701C34.3549 22.2685 35.167 21.4559 36.1686 21.4549ZM64.2243 21.4549C65.2264 21.4549 66.0395 22.2675 66.0395 23.2701C66.0395 24.2727 65.2264 25.0853 64.2243 25.0853C63.2217 25.0853 62.4086 24.2727 62.4086 23.2701C62.4102 22.2685 63.2223 21.4559 64.2243 21.4549Z" fill="black"/>
+                            <path d="M8.39797 53.3057H37.6536C38.4739 53.3057 39.1389 52.6408 39.1389 51.8204C39.1389 51.0006 38.4739 50.3351 37.6536 50.3351H8.39797L13.619 45.114C14.1993 44.5343 14.1993 43.5941 13.619 43.0138C13.0387 42.4335 12.0991 42.4335 11.5188 43.0138L3.76237 50.7703C3.18208 51.3506 3.18208 52.2907 3.76237 52.8705L11.5188 60.627C12.0991 61.2073 13.0387 61.2073 13.619 60.627C14.1993 60.0472 14.1993 59.1071 13.619 58.5268L8.39797 53.3057Z" fill="black"/>
+                        </svg>
+                    </div>
+                    <h3>Handynummer eingeben</h3>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M62.9568 73.2664H9.66022C9.09927 73.2664 8.64453 72.8116 8.64453 72.2507V48.7792C8.64453 44.9498 10.1657 41.2772 12.8736 38.5694C14.9969 36.446 17.7136 35.0523 20.6338 34.5496C17.0685 32.4515 14.1321 28.6663 12.8473 23.8702L8.92776 9.25276C8.83243 8.89741 8.93661 8.51856 9.20026 8.26188C9.46375 8.00535 9.84536 7.91132 10.198 8.01594C13.6292 9.03511 18.2706 8.60489 22.5834 7.38708C26.8932 6.17 30.8883 4.16388 32.9976 1.90963C33.2497 1.64033 33.6279 1.52875 33.9858 1.61828C34.3436 1.7078 34.6248 1.98436 34.7202 2.34072C35.7972 6.35834 36.4765 8.89509 37.2944 11.948L39.8683 2.34174C39.9635 1.98639 40.2433 1.71041 40.5998 1.62002C40.9563 1.52962 41.3338 1.63903 41.5867 1.90601C44.0479 4.50384 48.2821 6.45207 52.6262 7.5538C56.9674 8.65481 61.431 8.91468 64.3858 8.01638C64.7388 7.909 65.1223 8.00158 65.3876 8.25811C65.6527 8.51464 65.7579 8.8948 65.6624 9.25116C64.0637 15.2124 63.3401 17.9096 61.7439 23.8723C60.3672 29.0115 57.0948 32.9892 53.184 34.9744C55.6444 35.5441 57.9026 36.7285 59.7434 38.5694C62.4512 41.2772 63.9724 44.9498 63.9724 48.7792V72.2507C63.9724 72.8116 63.5177 73.2664 62.9568 73.2664ZM30.6505 35.7645L36.307 41.199L42.547 35.179C40.3386 34.0712 38.5424 32.261 37.2889 30.0029C35.7811 32.7147 33.4917 34.7887 30.6505 35.7645ZM51.509 71.235H61.9411V48.7792C61.9411 45.4885 60.6339 42.3326 58.3071 40.0057C55.9802 37.6789 52.8244 36.3717 49.5337 36.3717H44.2365L37.0137 43.3398C36.6209 43.7189 35.9986 43.7195 35.6049 43.3414L28.3506 36.3717H23.0834C19.7927 36.3717 16.6368 37.6789 14.31 40.0057C11.9831 42.3326 10.6759 45.4885 10.6759 48.7792V71.235H21.1082V52.4197C21.1082 51.8592 21.5633 51.404 22.1238 51.404C22.6844 51.404 23.1395 51.8592 23.1395 52.4197V71.235H49.4776V52.4197C49.4776 51.8592 49.9326 51.404 50.4933 51.404C51.0538 51.404 51.509 51.8592 51.509 52.4197V71.235ZM38.346 15.8721C38.4398 16.2228 38.5369 16.5848 38.6375 16.9596C39.6388 20.6979 39.4647 24.4058 38.374 27.564C39.6524 30.7399 42.0384 33.1786 45.2029 34.0265C51.301 35.6607 57.7811 30.8152 59.7817 23.3467C61.2257 17.9523 61.9557 15.2305 63.2654 10.3468C60.1538 10.8442 56.0926 10.5286 52.1269 9.52278C48.0745 8.49505 44.1313 6.74981 41.3948 4.49383L38.346 15.8721ZM14.8095 23.3442C16.8101 30.8129 23.2915 35.6609 29.3898 34.0266C35.4881 32.3924 38.6759 24.9541 36.6753 17.4853C35.2303 12.0946 34.5011 9.36999 33.1926 4.48759C30.7472 6.47326 27.0727 8.23025 23.1355 9.34199C19.1122 10.4781 14.8245 10.9385 11.3259 10.353L14.8095 23.3442ZM24.4509 27.2536C23.9083 27.3941 23.3537 27.0675 23.2132 26.5248C23.0728 25.9821 23.3993 25.4276 23.9421 25.2871L30.4832 23.5942C31.0259 23.4538 31.5805 23.7803 31.7209 24.3231C31.8614 24.8657 31.5348 25.4203 30.9921 25.5608L24.4509 27.2536ZM29.1744 17.6326C28.7747 18.0257 28.1311 18.0202 27.7381 17.6203C27.3451 17.2205 27.3506 16.577 27.7505 16.1839L30.6254 13.3577C31.0252 12.9648 31.6687 12.9703 32.0618 13.3701C32.4547 13.7698 32.4492 14.4135 32.0494 14.8064L29.1744 17.6326ZM22.7518 17.4856C23.292 17.6354 23.6091 18.1954 23.4593 18.7356C23.3096 19.2758 22.7495 19.5929 22.2093 19.4431L18.3094 18.3623C17.7692 18.2126 17.4521 17.6525 17.6019 17.1123C17.7516 16.5721 18.3117 16.255 18.8519 16.4048L22.7518 17.4856ZM42.9267 20.6425C44.5814 21.5032 46.3985 22.2514 48.3416 22.8454C50.2855 23.4396 52.2082 23.8367 54.063 24.0528C54.456 24.0986 54.7867 24.3685 54.9103 24.7444C55.0338 25.1204 54.9279 25.5339 54.6386 25.8039C52.115 28.1608 49.2232 29.1431 46.6546 28.3581L46.6535 28.3578C44.0866 27.5702 42.2392 25.1387 41.4679 21.7702C41.3795 21.3843 41.5235 20.9822 41.8367 20.74C42.15 20.4979 42.5754 20.4597 42.9267 20.6425ZM44.1837 23.484C44.8796 24.9434 45.9018 26.0021 47.2487 26.4157C48.5971 26.8275 50.0375 26.5216 51.431 25.7016C50.2186 25.4701 48.9872 25.1668 47.7477 24.788C46.5087 24.4093 45.3179 23.9712 44.1837 23.484ZM58.6732 17.4096C58.7833 17.9592 58.4265 18.4949 57.8769 18.605C57.3272 18.7152 56.7915 18.3584 56.6814 17.8088C56.5713 17.259 56.1736 16.7838 55.5985 16.6078C55.0258 16.4329 54.428 16.6008 54.0308 16.9955C53.633 17.3904 52.9894 17.3883 52.5943 16.9905C52.1993 16.5928 52.2015 15.9492 52.5992 15.5542C53.5096 14.65 54.8793 14.2643 56.192 14.6649L56.1927 14.6652C57.5082 15.0678 58.4213 16.152 58.6732 17.4096ZM48.8957 14.4201C49.0047 14.9699 48.6468 15.5049 48.0968 15.6139C47.5469 15.7228 47.0121 15.3649 46.9031 14.8149C46.794 14.2643 46.3966 13.7895 45.8223 13.6137C45.2494 13.439 44.6516 13.6067 44.2543 14.0014C43.8566 14.3963 43.213 14.3942 42.8179 13.9964C42.4229 13.5987 42.4251 12.9551 42.8228 12.5601C43.7332 11.6559 45.1029 11.2702 46.4157 11.6708L46.4165 11.6711C47.7323 12.0739 48.6457 13.1586 48.8957 14.4201Z" fill="black"/>
+                        </svg>
+                    </div>
+                    <h3>Betrag & Anbieter wählen</h3>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="67" height="67" fill="none">
+                            <g clip-path="url(#a)">
+                                <path fill="#000" d="m58.18 39.629-.047-.646c-.756-9.842-5.338-16.012-9.381-21.454-3.744-5.04-6.977-9.391-6.977-15.812A1.377 1.377 0 0 0 39.6.598c-6.072 4.345-11.138 11.669-12.908 18.656-1.228 4.865-1.39 10.334-1.413 13.946-5.608-1.198-6.878-9.586-6.891-9.677a1.382 1.382 0 0 0-.716-1.02 1.37 1.37 0 0 0-1.246-.024c-.294.143-7.217 3.66-7.62 17.708-.028.467-.03.935-.03 1.403 0 13.646 11.103 24.75 24.75 24.75 13.646 0 24.748-11.104 24.748-24.75 0-.684-.046-1.324-.093-1.961Zm-24.655 23.96c-4.549 0-8.25-3.942-8.25-8.788 0-.165 0-.331.012-.535.055-2.044.443-3.44.868-4.367.798 1.713 2.225 3.288 4.54 3.288.76 0 1.375-.615 1.375-1.375 0-1.957.04-4.216.528-6.254.434-1.809 1.47-3.73 2.783-5.272.584 2.001 1.723 3.62 2.835 5.2 1.59 2.262 3.236 4.6 3.524 8.586.018.236.035.474.035.73 0 4.845-3.7 8.788-8.25 8.788Zm8.69-1.796c1.427-1.946 2.31-4.352 2.31-6.992 0-.323-.02-.624-.06-1.187-.327-4.488-2.278-7.262-4-9.71-1.468-2.084-2.734-3.885-2.734-6.439a1.375 1.375 0 0 0-2.203-1.096c-2.637 1.992-4.837 5.346-5.605 8.549-.392 1.642-.529 3.418-.577 4.88-.954-1.027-1.25-2.928-1.252-2.954a1.377 1.377 0 0 0-1.99-1.037c-.346.177-3.39 1.922-3.564 8.343-.013.218-.014.435-.014.651 0 2.64.883 5.046 2.31 6.992-7.82-3.377-13.31-11.158-13.31-20.203 0-.412 0-.823.027-1.28.237-8.242 2.874-12.33 4.595-14.133 1.2 4.297 4.345 9.914 10.503 9.914.76 0 1.375-.615 1.375-1.375 0-4.602.103-9.919 1.333-14.788 1.397-5.516 5.222-11.472 9.84-15.504.767 5.89 3.974 10.207 7.346 14.744 4.008 5.395 8.152 10.974 8.846 20.008l.047.658c.043.572.087 1.143.087 1.756 0 9.045-5.49 16.826-13.31 20.203Z"/>
+                            </g>
+                            <defs>
+                                <clipPath id="a">
+                                    <path fill="#fff" d="M.525.34h66v66h-66z"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3>Zahlung & Aufladung</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Providers Section -->
+    <section class="providers-section">
+        <div class="container">
+            <h2>Mobile providers (official reseller)</h2>
+            <div class="providers-grid">
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/vudafone.png" alt="Vudafone">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/o2.png" alt="O2">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/lyca.png" alt="Lyca Mobile">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/ay-yildiz.png" alt="ay yildiz">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/blau.png" alt="Blau">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/t-mobile.png" alt="T Mobile">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/congstar.png" alt="Congstar">
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <img src="assets/img/e-plus.png" alt="e-plus">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vouchers Section -->
+    <section class="vouchers-section">
+        <div class="container">
+            <h2>Vouchers (official reseller)</h2>
+            <div class="vouchers-grid">
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/rewe.png" alt="Rewe">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/douglas.png" alt="Douglas">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/Ikea.png" alt="Ikea">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/amazon.png" alt="Amazon">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/netfix.png" alt="Netflix">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/zalando.png" alt="Zalando">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/rossmann.png" alt="ROSSMANN">
+                    </div>
+                </div>
+                <div class="voucher-card">
+                    <div class="voucher-logo">
+                        <img src="assets/img/google-play.png" alt="Google Play">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <span>Schnelleraufgeladen.de</span>
+                    </div>
+                    <div class="awards">
+                        <div class="award">
+                            <img src="assets/img/gut.png" alt="GUT AWARD">
+                        </div>
+                        <div class="award">
+                            <img src="assets/img/n-tv.png" alt="Trusted Shops">
+                        </div>
+                    </div>
+                    <div class="payment-methods">
+                        <img src="assets/img/payment-method.png" alt="Payment Methods">
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="link-column">
+                        <h4>Informationen</h4>
+                        <ul>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Über uns</a></li>
+                            <li><a href="#">AGB</a></li>
+                            <li><a href="#">Datenschutzerklärung</a></li>
+                            <li><a href="#">Aufladehinweise</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-column">
+                        <h4>Produktkategorie</h4>
+                        <ul>
+                            <li><a href="#">Guthaben</a></li>
+                            <li><a href="#">Gutscheine</a></li>
+                            <li><a href="#">Travel</a></li>
+                            <li><a href="#">Gamecards</a></li>
+                            <li><a href="#">Kreditkarte</a></li>
+                            <li><a href="#">Österreich</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-column">
+                        <h4>Subscribe us</h4>
+                        <p>Subscribe our newsletter to receive latest updates regularly from us!</p>
+                        <div class="newsletter">
+                            <input type="email" placeholder="Enter your email" id="newsletterEmail">
+                            <button class="btn btn-send" id="sendBtn">
+                                <img src="assets/img/send.svg" alt="Send Email">
+                            </button>
+                        </div>
+                        <small>By clicking send link you agree to receive message.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="copyright">
+                    © Copyrights 2025. All rights reserved.
+                </div>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
