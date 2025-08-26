@@ -28,7 +28,7 @@ $(document).ready(function() {
     // Initialize voucher modal
     initVoucherModal();
     
-    // Initialize country selector dropdowns
+    // Initialize country selectors
     initCountrySelectors();
 
     /**
@@ -187,20 +187,77 @@ $(document).ready(function() {
      * Initialize mobile menu functionality
      */
     function initMobileMenu() {
-        // Add mobile menu toggle if needed
-        if ($(window).width() <= 768) {
-            $('.nav').addClass('mobile-nav');
-            
-            // Create mobile menu toggle
-            if (!$('.mobile-toggle').length) {
-                $('.header .container').append('<button class="mobile-toggle"><i class="fas fa-bars"></i></button>');
+        const $mobileMenuToggle = $('#mobileMenuToggle');
+        const $mobileMenu = $('#mobileMenu');
+        const $mobileMenuOverlay = $('#mobileMenuOverlay');
+        const $mobileMenuClose = $('#mobileMenuClose');
+        const $body = $('body');
+        
+
+
+        // Open mobile menu
+        $mobileMenuToggle.on('click', function() {
+            openMobileMenu();
+        });
+
+        // Close mobile menu
+        $mobileMenuClose.on('click', function() {
+            closeMobileMenu();
+        });
+
+        // Close on overlay click
+        $mobileMenuOverlay.on('click', function() {
+            closeMobileMenu();
+        });
+
+        // Close on escape key
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
+                closeMobileMenu();
             }
+        });
+
+        // Handle mobile menu link clicks
+        $('.mobile-nav-link').on('click', function(e) {
+            const section = $(this).data('section');
             
-            $('.mobile-toggle').on('click', function() {
-                $('.nav').toggleClass('active');
-                $(this).find('i').toggleClass('fa-bars fa-times');
-            });
+            // Close menu first
+            closeMobileMenu();
+            
+            // Handle special sections
+            if (section === 'guthaben') {
+                e.preventDefault();
+                setTimeout(function() {
+                    openFormModal();
+                }, 300);
+            } else if (section === 'gutscheine') {
+                e.preventDefault();
+                setTimeout(function() {
+                    openVoucherModal();
+                }, 300);
+            }
+        });
+
+        function openMobileMenu() {
+            $mobileMenu.addClass('active');
+            $mobileMenuOverlay.addClass('active');
+            $mobileMenuToggle.addClass('active');
+            $body.addClass('mobile-menu-open');
         }
+
+        function closeMobileMenu() {
+            $mobileMenu.removeClass('active');
+            $mobileMenuOverlay.removeClass('active');
+            $mobileMenuToggle.removeClass('active');
+            $body.removeClass('mobile-menu-open');
+        }
+
+        // Handle window resize
+        $(window).on('resize', function() {
+            if ($(window).width() > 768 && $mobileMenu.hasClass('active')) {
+                closeMobileMenu();
+            }
+        });
     }
 
     /**
@@ -348,16 +405,13 @@ $(document).ready(function() {
             }
             
             .mobile-nav {
-                position: absolute;
-                top: 100%;
+                
                 left: 0;
                 right: 0;
-                background: rgba(102, 126, 234, 0.95);
-                backdrop-filter: blur(10px);
+               
                 flex-direction: column;
                 padding: 1rem;
-                transform: translateY(-100%);
-                opacity: 0;
+              
                 transition: all 0.3s ease;
             }
             
@@ -405,49 +459,8 @@ $(document).ready(function() {
         );
     });
 
-    // Add floating action button for quick access
-    if (!$('.fab').length) {
-        $('body').append(`
-            <div class="fab">
-                <i class="fas fa-phone"></i>
-            </div>
-        `);
-        
-        $('.fab').on('click', function() {
-            showNotification('Kontakt', 'Sie werden mit unserem Support verbunden...', 'info');
-        });
-    }
 
-    // Add CSS for floating action button
-    $('<style>')
-        .prop('type', 'text/css')
-        .html(`
-            .fab {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                width: 60px;
-                height: 60px;
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-size: 1.5rem;
-                cursor: pointer;
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-                transition: all 0.3s ease;
-                z-index: 1000;
-            }
-            
-            .fab:hover {
-                transform: scale(1.1);
-                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-            }
-                 `)
-         .appendTo('head');
-    
+
     /**
      * Initialize form modal functionality
      */
@@ -469,51 +482,50 @@ $(document).ready(function() {
         });
         
         // Close modal when clicking outside
-        $('#formModal').on('click', function(e) {
+        $('body').on('click', function(e) {
             if (e.target === this) {
                 closeFormModal();
             }
         });
         
-        // Next step functionality
-        $('.next-step').on('click', function() {
-            var nextStep = $(this).data('next');
-            var currentStep = $(this).closest('.form-step').data('step');
-            
-            if (validateCurrentStep(currentStep)) {
-                goToStep(nextStep);
-            }
-        });
+                 // Next step functionality
+         $('.next-step').on('click', function() {
+             var nextStep = $(this).data('next');
+             var currentStep = $(this).closest('.form-step').data('step');
+             
+             console.log('Next button clicked - Current step:', currentStep, 'Next step:', nextStep);
+             
+             if (validateCurrentStep(currentStep)) {
+                 goToStep(nextStep);
+             }
+         });
         
-        // Previous step functionality
-        $('.prev-step').on('click', function() {
-            var prevStep = $(this).data('prev');
-            goToStep(prevStep);
-        });
+                 // Previous step functionality
+         $('.prev-step').on('click', function() {
+             var prevStep = $(this).data('prev');
+             console.log('Prev button clicked - Going to step:', prevStep);
+             goToStep(prevStep);
+         });
         
         // Provider selection
-        $('.provider-option').on('click', function() {
+        $('.provider-radio').on('change', function() {
             $('.provider-option').removeClass('selected');
-            $(this).addClass('selected');
-            window.formData.provider = $(this).find('.provider-logo').text().trim();
+            $(this).closest('.provider-option').addClass('selected');
+            window.formData.provider = $(this).val();
         });
         
         // Amount selection
-        $('.amount-option').on('click', function() {
+        $('.amount-radio').on('change', function() {
             $('.amount-option').removeClass('selected');
-            $(this).addClass('selected');
-            window.formData.amount = $(this).find('.amount').text();
+            $(this).closest('.amount-option').addClass('selected');
+            window.formData.amount = $(this).val();
         });
         
         // Payment method selection
-        $('.payment-option').on('click', function() {
+        $('.payment-radio').on('change', function() {
             $('.payment-option').removeClass('selected');
-            $(this).addClass('selected');
-            var paymentText = $(this).find('span').text();
-            if (paymentText === '') {
-                paymentText = $(this).find('.sofort-text').text();
-            }
-            window.formData.paymentMethod = paymentText;
+            $(this).closest('.payment-option').addClass('selected');
+            window.formData.paymentMethod = $(this).val();
         });
         
         // Phone number input
@@ -536,43 +548,45 @@ $(document).ready(function() {
      * Close form modal
      */
     function closeFormModal() {
-        $('#formModal').removeClass('show');
+        $('#formModal, #voucherModal').removeClass('show');
         $('body').removeClass('modal-open');
         resetForm();
     }
     
-    /**
-     * Go to specific step
-     */
-    function goToStep(stepNumber) {
-        // Hide all steps
-        $('.form-step').removeClass('active');
-        
-        // Show target step
-        $('.form-step[data-step="' + stepNumber + '"]').addClass('active');
-        
-        // Update progress indicator
-        updateProgressIndicator(stepNumber);
-        
-        // Update step circles
-        updateStepCircles(stepNumber);
-        
-        // Update summary if on step 5
-        if (stepNumber === 5) {
-            updateOrderSummary();
-        }
-        
-        // Generate order number if on step 6
-        if (stepNumber === 6) {
-            generateOrderNumber();
-        }
-    }
+         /**
+      * Go to specific step
+      */
+     function goToStep(stepNumber) {
+         console.log('Going to step:', stepNumber);
+         
+         // Hide all steps
+         $('.form-step').removeClass('active');
+         
+         // Show target step
+         $('.form-step[data-step="' + stepNumber + '"]').addClass('active');
+         
+         // Update progress indicator
+         updateProgressIndicator(stepNumber);
+         
+         // Update step circles
+         updateStepCircles(stepNumber);
+         
+         // Update summary if on step 5
+         if (stepNumber === 5) {
+             updateOrderSummary();
+         }
+         
+         // Generate order number if on step 6
+         if (stepNumber === 6) {
+             generateOrderNumber();
+         }
+     }
     
     /**
      * Update progress indicator
      */
     function updateProgressIndicator(stepNumber) {
-        var progressPercentage = (stepNumber / 6) * 100;
+        var progressPercentage = (stepNumber / 7) * 100;
         $('#progressFill').css('width', progressPercentage + '%');
     }
     
@@ -659,8 +673,11 @@ $(document).ready(function() {
         // Reset form elements
         $('#phoneNumber').val('');
         $('.provider-option').removeClass('selected');
+        $('.provider-radio').prop('checked', false);
         $('.amount-option').removeClass('selected');
+        $('.amount-radio').prop('checked', false);
         $('.payment-option').removeClass('selected');
+        $('.payment-radio').prop('checked', false);
         
                  // Reset progress
          updateProgressIndicator(1);
@@ -712,10 +729,11 @@ $(document).ready(function() {
          });
          
          // Voucher selection
-         $('.voucher-option').on('click', function() {
+         $('.voucher-radio').on('change', function() {
              $('.voucher-option').removeClass('selected');
-             $(this).addClass('selected');
-             window.voucherData.voucher = $(this).find('.voucher-logo').text().trim();
+             $(this).closest('.voucher-option').addClass('selected');
+             window.voucherData.voucher = $(this).val();
+             console.log('Voucher selected:', window.voucherData.voucher);
          });
          
          // Amount selection for voucher modal
@@ -725,16 +743,12 @@ $(document).ready(function() {
              window.voucherData.amount = $(this).find('.amount').text();
          });
          
-         // Payment method selection for voucher modal
-         $('#voucherModal .payment-option').on('click', function() {
-             $('#voucherModal .payment-option').removeClass('selected');
-             $(this).addClass('selected');
-             var paymentText = $(this).find('span').text();
-             if (paymentText === '') {
-                 paymentText = $(this).find('.sofort-text').text();
-             }
-             window.voucherData.paymentMethod = paymentText;
-         });
+                   // Payment method selection for voucher modal
+          $('#voucherModal .payment-radio').on('change', function() {
+              $('#voucherModal .payment-option').removeClass('selected');
+              $(this).closest('.payment-option').addClass('selected');
+              window.voucherData.paymentMethod = $(this).val();
+          });
          
          // Phone number input for voucher modal
          $('#voucherPhoneNumber').on('input', function() {
@@ -880,93 +894,95 @@ $(document).ready(function() {
          $('#verificationPhone').val('');
          $('#smsCode').val('');
          $('.voucher-option').removeClass('selected');
+         $('.voucher-radio').prop('checked', false);
          $('#voucherModal .amount-option').removeClass('selected');
+         $('#voucherModal .amount-radio').prop('checked', false);
          $('#voucherModal .payment-option').removeClass('selected');
+         $('#voucherModal .payment-radio').prop('checked', false);
          
          // Reset progress
          updateVoucherProgressIndicator(1);
          updateVoucherStepCircles(1);
      }
-
-    /**
-     * Initialize country selector dropdowns
+     
+         /**
+     * Initialize country selectors with FlagCDN integration
      */
     function initCountrySelectors() {
-        console.log('Initializing country selectors...');
+        // Simple map of ISO -> flag image URL (using FlagCDN 24px height variant)
+        const flagUrl = iso => `https://flagcdn.com/w40/${iso}.png`; // 40px wide PNG (approx 24px tall)
         
-        // Country select change event
-        $('.country-select').on('change', function() {
-            var $select = $(this);
-            var selectedOption = $select.find('option:selected');
-            var selectorId = $select.attr('id');
+        function initializeCountrySelector(selectorId, flagId, phoneId, fullPhoneId) {
+            const countryEl = document.getElementById(selectorId);
+            const flagEl = document.getElementById(flagId);
+            const phoneEl = document.getElementById(phoneId);
+            const fullEl = document.getElementById(fullPhoneId);
             
-            // Get country data
-            var country = selectedOption.val();
-            var phonePrefix = selectedOption.data('prefix');
-            var countryName = selectedOption.text();
+            if (!countryEl || !flagEl || !phoneEl || !fullEl) return;
             
-            // Extract flag emoji from the option text (first emoji character)
-            var flagEmoji = selectedOption.text().match(/[\u{1F1E6}-\u{1F1FF}][\u{1F1E6}-\u{1F1FF}]/u);
-            if (flagEmoji) {
-                flagEmoji = flagEmoji[0];
-            } else {
-                // Fallback flags if emoji extraction fails
-                var flagMap = {
-                    'germany': '🇩🇪',
-                    'austria': '🇦🇹',
-                    'switzerland': '🇨🇭',
-                    'netherlands': '🇳🇱',
-                    'belgium': '🇧🇪',
-                    'france': '🇫🇷',
-                    'italy': '🇮🇹',
-                    'spain': '🇪🇸'
-                };
-                flagEmoji = flagMap[country] || '🇩🇪';
+            function setFlagFromSelect() {
+                const iso = countryEl.options[countryEl.selectedIndex].dataset.iso;
+                if (iso) {
+                    flagEl.style.backgroundImage = `url("${flagUrl(iso)}")`;
+                }
             }
             
-            // Update flag icon
-            var flagIconId = 'flagIcon' + selectorId.replace('countrySelector', '');
-            $('#' + flagIconId).text(flagEmoji);
-            
-            // Extract country code from the option text (e.g., "GER" from "🇩🇪 Deutschland (+49)")
-            var countryCode = '';
-            switch(country) {
-                case 'germany': countryCode = 'GER'; break;
-                case 'austria': countryCode = 'AUT'; break;
-                case 'switzerland': countryCode = 'CHE'; break;
-                case 'netherlands': countryCode = 'NLD'; break;
-                case 'belgium': countryCode = 'BEL'; break;
-                case 'france': countryCode = 'FRA'; break;
-                case 'italy': countryCode = 'ITA'; break;
-                case 'spain': countryCode = 'ESP'; break;
-                default: countryCode = 'GER';
+            function updateHidden() {
+                const dial = countryEl.value.trim();
+                const local = phoneEl.value.replace(/^\s+|\s+$/g, '');
+                // Normalize: keep a single space between code and local number (no double +)
+                const localClean = local.replace(/^\+?\d*/, (m) => m.startsWith('+') ? '' : m); // drop accidental code
+                fullEl.value = `${dial} ${localClean}`;
             }
             
-            // Store selected country data
-            $select.data('selected-country', {
-                country: country,
-                code: countryCode,
-                prefix: phonePrefix,
-                name: countryName
+            function updatePlaceholder() {
+                const prefix = countryEl.options[countryEl.selectedIndex].dataset.prefix;
+                phoneEl.placeholder = `Handynummer eingeben (${prefix})`;
+            }
+            
+            // Initialize
+            setFlagFromSelect();
+            updatePlaceholder();
+            updateHidden();
+            
+            // Events
+            countryEl.addEventListener('change', () => {
+                setFlagFromSelect();
+                updatePlaceholder();
+                // Optionally prefill code visually if user started empty
+                if (!phoneEl.value.trim().length) {
+                    phoneEl.value = '';
+                }
+                updateHidden();
             });
             
-            // Update form data if available
-            if (selectorId === 'countrySelector1' && window.formData) {
-                window.formData.country = country;
-                window.formData.countryCode = countryCode;
-                window.formData.phonePrefix = phonePrefix;
-            } else if ((selectorId === 'countrySelector2' || selectorId === 'countrySelector3') && window.voucherData) {
-                window.voucherData.country = country;
-                window.voucherData.countryCode = countryCode;
-                window.voucherData.phonePrefix = phonePrefix;
-            }
+            phoneEl.addEventListener('input', updateHidden);
             
-            console.log('Country selected:', country, 'Prefix:', phonePrefix, 'Code:', countryCode, 'Flag:', flagEmoji);
-        });
+            // Optional: prevent users from typing a '+' country code in local field
+            phoneEl.addEventListener('beforeinput', (e) => {
+                if (e.data === '+') e.preventDefault();
+            });
+        }
         
-        // Initialize default selected state (Germany is already selected by default in HTML)
-        $('.country-select').each(function() {
-            $(this).trigger('change');
-        });
+        // Initialize all country selectors
+        initializeCountrySelector('countrySelector1', 'flag1', 'phoneNumber', 'full_phone1');
+        initializeCountrySelector('countrySelector5', 'flag5', 'phone-verify', 'full_phone5');
+        initializeCountrySelector('countrySelector2', 'flag2', 'voucherPhoneNumber', 'full_phone2');
+        initializeCountrySelector('countrySelector5', 'flag5-voucher', 'voucher-phone-verify', 'full_phone5-voucher');
+        
+        // If used inside a form, ensure hidden full number is synced on submit
+        document.addEventListener('submit', () => {
+            document.querySelectorAll('.country-select').forEach(select => {
+                const phoneInput = select.closest('.phone-input-group').querySelector('.phone-input');
+                const fullInput = select.closest('.phone-input-group').querySelector('input[type="hidden"]');
+                if (phoneInput && fullInput) {
+                    const dial = select.value.trim();
+                    const local = phoneInput.value.replace(/^\s+|\s+$/g, '');
+                    const localClean = local.replace(/^\+?\d*/, (m) => m.startsWith('+') ? '' : m);
+                    fullInput.value = `${dial} ${localClean}`;
+                }
+            });
+        }, true);
     }
+
  });
