@@ -21,7 +21,7 @@ body {
     position: relative;
 }
 
-img{
+img {
     max-width: 100%;
 }
 
@@ -656,7 +656,6 @@ html {
 }
 
 
-
 .payment-methods {
     display: flex;
     align-items: center;
@@ -682,9 +681,18 @@ html {
 }
 
 .social-media a {
-    color: #bdc3c7;
-    font-size: 1.5rem;
+    color: #fff;
+    font-size: .9rem;
     transition: color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 11px;
+    border-radius: 100%;
+    width: 37px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .social-media a:hover {
@@ -1713,7 +1721,7 @@ body.mobile-menu-open {
         display: none;
     }
 
-    .logo img{
+    .logo img {
         width: 250px;
     }
 
@@ -1740,8 +1748,8 @@ body.mobile-menu-open {
         height: 400px;
     }
 
-    .form-modal{
-        top:0;
+    .form-modal {
+        top: 0;
     }
 
     /* How it works */
@@ -1791,13 +1799,15 @@ body.mobile-menu-open {
         padding: 20px;
     }
 
-    .form-step{
+    .form-step {
         padding: 20px 25px;
         border-radius: 8px;
     }
+
     .step-content .content-wrapper {
         width: 90%;
     }
+
     .step-content h2 {
         font-size: 1.5rem;
     }
@@ -1816,10 +1826,11 @@ body.mobile-menu-open {
         flex-direction: column;
     }
 
-    .sms-input-group{
+    .sms-input-group {
         flex-direction: column;
         align-items: stretch;
     }
+
     .country-selector {
         border-right: none;
         border-bottom: 1px solid #e0e0e0;
@@ -1875,26 +1886,28 @@ body.mobile-menu-open {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
-    
+
     .amount-option {
         padding: 20px 10px;
     }
-    
+
     .amount {
         font-size: 1.3rem;
     }
-    
+
     .amount-label {
         font-size: 0.8rem;
     }
-    .footer-content{
+
+    .footer-content {
         gap: 1rem;
     }
-    .footer-logo{
+
+    .footer-logo {
         justify-content: center;
     }
 
-    .awards{
+    .awards {
         justify-content: center;
     }
 }
@@ -1907,7 +1920,7 @@ body.mobile-menu-open {
         gap: 1rem;
     }
 
-    .logo img{
+    .logo img {
         width: 180px;
     }
 
@@ -1915,14 +1928,15 @@ body.mobile-menu-open {
     .hero-text h1 {
         font-size: 2rem;
     }
-    .progress-indicator{
+
+    .progress-indicator {
         width: 90%;
         margin-left: 5px;
         padding: 0;
         margin-bottom: 20px;
     }
 
-    .step-circle{
+    .step-circle {
         width: 25px;
         height: 25px;
         font-size: 0.8rem;
@@ -1942,14 +1956,15 @@ body.mobile-menu-open {
         border-radius: 8px;
     }
 
-    .form-step{
+    .form-step {
         padding: 15px;
     }
+
     .step-content .content-wrapper {
         width: 100%;
     }
 
-    .form-wrapper{
+    .form-wrapper {
         flex-direction: column;
     }
 
@@ -1958,44 +1973,44 @@ body.mobile-menu-open {
     }
 
     .amount-area {
-       flex-direction: column;
+        flex-direction: column;
     }
 
     .amount-selection {
         flex-wrap: wrap;
     }
 
-    .payment-area{
+    .payment-area {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .sms-input-group{
+    .sms-input-group {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .voucher-selection-area{
+    .voucher-selection-area {
         flex-direction: column;
         align-items: stretch;
-        gap:20px
+        gap: 20px
     }
 
-    .voucher-selection{
+    .voucher-selection {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     }
 
-    .voucher-modal .amount-area{
+    .voucher-modal .amount-area {
         align-items: flex-start;
     }
-    .voucher-information{
+
+    .voucher-information {
         gap: 0;
     }
 
     .phone-input-group {
         flex-direction: column;
     }
-
 
 
     .btn {
@@ -2008,7 +2023,7 @@ body.mobile-menu-open {
         height: 320px;
     }
 
-    .how-it-works h2, .providers-section h2, .vouchers-section h2{
+    .how-it-works h2, .providers-section h2, .vouchers-section h2 {
         font-size: 1.7rem;
     }
 
@@ -2045,7 +2060,7 @@ body.mobile-menu-open {
         right: -100%;
     }
 
-    .copyright{
+    .copyright {
         text-align: center;
     }
 }
