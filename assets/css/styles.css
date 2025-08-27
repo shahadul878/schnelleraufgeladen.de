@@ -25,6 +25,18 @@ img {
     max-width: 100%;
 }
 
+.no-scrollbar {
+    /* Firefox */
+    scrollbar-width: none;
+    /* IE 10+ & old Edge (Legacy) */
+    -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    /* Chrome, Safari, new Edge, Opera */
+    width: 0;
+    height: 0;
+}
+
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
@@ -718,11 +730,14 @@ html {
    ======================================== */
 .form-modal {
     display: none;
-    position: absolute;
-    z-index: 10001;
+    position: fixed;
+    z-index: 10000;
     left: 0;
-    top: 80%;
+    top: 0;
     width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
     animation: fadeIn 0.3s ease;
 }
 
@@ -753,23 +768,41 @@ html {
 }
 
 .close-modal {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #666;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #fff;
+    font-size: 1.2rem;
+    color: #333;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
 }
 
 .close-modal:hover {
-    background: #f0f0f0;
-    color: #333;
+    background: #fff;
+    color: #0061CE;
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+}
+
+.voucher-modal .close-modal:hover {
+    background: #fff;
+    color: #e74c3c;
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+}
+
+.close-modal:active {
+    transform: scale(0.95);
 }
 
 /* ========================================
@@ -1079,6 +1112,7 @@ html {
     font-size: 1rem;
     background: transparent;
     outline: none;
+    color: #fff;
 }
 
 input.phone-input::placeholder {
@@ -1219,6 +1253,37 @@ input.phone-input::placeholder {
     opacity: 0.1;
 }
 
+.amount-option::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    background: #667eea;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+    z-index: 3;
+}
+
+.amount-option.selected::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.voucher-modal .amount-option::after {
+    background: #f08149;
+}
+
 .amount-option:focus-within {
     outline: 2px solid #667eea;
     outline-offset: 2px;
@@ -1316,6 +1381,11 @@ input.phone-input::placeholder {
     overflow: hidden;
 }
 
+.voucher-modal .payment-option {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #F08149;
+}
+
 .payment-option::after {
     content: '\f00c';
     font-family: 'Font Awesome 6 Free';
@@ -1336,6 +1406,10 @@ input.phone-input::placeholder {
     transform: scale(0);
     transition: all 0.3s ease;
     z-index: 3;
+}
+
+.voucher-modal .payment-option::after {
+    background: #f08149;
 }
 
 .payment-option.selected::after {
@@ -1362,6 +1436,11 @@ input.phone-input::placeholder {
     box-shadow: 0 12px 30px rgba(102, 126, 234, 0.25);
 }
 
+.voucher-modal .payment-option:hover {
+    border-color: #f08149;
+    box-shadow: 0 12px 30px rgba(240, 129, 73, 0.25);
+}
+
 .payment-option:hover::before {
     opacity: 0.05;
 }
@@ -1371,6 +1450,11 @@ input.phone-input::placeholder {
     background: #4892E5;
     transform: translateY(-2px);
     animation: selectedPulse 0.6s ease-out;
+}
+
+.voucher-modal .payment-option.selected {
+    border: 2px solid #fff;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .payment-option.selected::before {
@@ -1497,9 +1581,36 @@ input.phone-input::placeholder {
 
 .voucher-option.selected .voucher-content,
 .voucher-option:focus-within .voucher-content {
-    border-color: #0061CE;
+    border-color: #ffffff;
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.voucher-content::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    background: #f08149;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+    z-index: 4;
+}
+
+.voucher-option.selected .voucher-content::after {
+    opacity: 1;
+    transform: scale(1);
 }
 
 
@@ -1748,9 +1859,6 @@ body.mobile-menu-open {
         height: 400px;
     }
 
-    .form-modal {
-        top: 0;
-    }
 
     /* How it works */
     .steps {
@@ -1781,6 +1889,15 @@ body.mobile-menu-open {
     .footer-bottom .container {
         flex-direction: column;
         gap: 1rem;
+    }
+
+    /* Close Modal Button Tablet */
+    .close-modal {
+        top: 15px;
+        right: 15px;
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
     }
 
     /* Form Modal */
@@ -1924,6 +2041,15 @@ body.mobile-menu-open {
         width: 180px;
     }
 
+    /* Close Modal Button Mobile */
+    .close-modal {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
     /* Hero Section */
     .hero-text h1 {
         font-size: 2rem;
@@ -1970,6 +2096,10 @@ body.mobile-menu-open {
 
     .step-content h2 {
         font-size: 1.3rem;
+    }
+
+    .provider-information, .voucher-information{
+        width: 100%;
     }
 
     .amount-area {

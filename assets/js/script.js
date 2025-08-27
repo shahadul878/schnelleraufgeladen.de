@@ -31,6 +31,12 @@ $(document).ready(function() {
     // Initialize country selectors
     initCountrySelectors();
 
+    // Initialize menu links
+    initMenuLinks();
+
+    // Initialize product cards
+    initProductCards();
+
     /**
      * Initialize loading animations for page elements
      */
@@ -210,7 +216,7 @@ $(document).ready(function() {
             closeMobileMenu();
         });
 
-        // Close on escape key
+        // Close on escape key for mobile menu only
         $(document).on('keydown', function(e) {
             if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
                 closeMobileMenu();
@@ -447,17 +453,7 @@ $(document).ready(function() {
         $('body').addClass('loaded');
     });
 
-    // Add some interactive features
-    $('.provider-card, .voucher-card').on('click', function() {
-        var cardType = $(this).hasClass('provider-card') ? 'Provider' : 'Voucher';
-        var cardName = $(this).find('.provider-logo, .voucher-logo').text().trim();
-        
-        showNotification(
-            cardType + ' ausgewählt', 
-            'Sie haben ' + cardName + ' ausgewählt. Weiterleitung...', 
-            'info'
-        );
-    });
+    // Interactive features removed - cards now directly open modals
 
 
 
@@ -480,30 +476,35 @@ $(document).ready(function() {
         $('#closeModal, #closeForm').on('click', function() {
             closeFormModal();
         });
-        
-        // Close modal when clicking outside
-        $('body').on('click', function(e) {
-            if (e.target === this) {
-                closeFormModal();
+
+        // Close modals with ESC key (support various key representations)
+        $(document).on('keydown', function(e) {
+            var isEsc = e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
+            if (isEsc) {
+                if ($('#formModal').hasClass('show')) {
+                    closeFormModal();
+                } else if ($('#voucherModal').hasClass('show')) {
+                    closeVoucherModal();
+                }
             }
         });
         
-                 // Next step functionality
-         $('.next-step').on('click', function() {
+                 // Next step functionality for form modal only
+         $('#formModal .next-step').on('click', function() {
              var nextStep = $(this).data('next');
              var currentStep = $(this).closest('.form-step').data('step');
              
-             console.log('Next button clicked - Current step:', currentStep, 'Next step:', nextStep);
+             console.log('Form modal next button clicked - Current step:', currentStep, 'Next step:', nextStep);
              
              if (validateCurrentStep(currentStep)) {
                  goToStep(nextStep);
              }
          });
         
-                 // Previous step functionality
-         $('.prev-step').on('click', function() {
+                 // Previous step functionality for form modal only
+         $('#formModal .prev-step').on('click', function() {
              var prevStep = $(this).data('prev');
-             console.log('Prev button clicked - Going to step:', prevStep);
+             console.log('Form modal prev button clicked - Going to step:', prevStep);
              goToStep(prevStep);
          });
         
@@ -586,7 +587,7 @@ $(document).ready(function() {
      * Update progress indicator
      */
     function updateProgressIndicator(stepNumber) {
-        var progressPercentage = (stepNumber / 7) * 100;
+        var progressPercentage = (stepNumber / 7 ) * 100;
         $('#progressFill').css('width', progressPercentage + '%');
     }
     
@@ -617,10 +618,7 @@ $(document).ready(function() {
                 }
                 break;
             case 2:
-                if (!window.formData.provider) {
-                    showNotification('Fehler', 'Bitte wählen Sie einen Anbieter aus.', 'error');
-                    return false;
-                }
+                // Provider validation removed - allow proceeding without provider selection
                 break;
             case 3:
                 if (!window.formData.amount) {
@@ -643,7 +641,6 @@ $(document).ready(function() {
      */
     function updateOrderSummary() {
         $('#summaryPhone').text('+49 ' + window.formData.phoneNumber);
-        $('#summaryProvider').text(window.formData.provider);
         $('#summaryAmount').text(window.formData.amount);
         $('#summaryPayment').text(window.formData.paymentMethod);
     }
@@ -700,41 +697,47 @@ $(document).ready(function() {
              phonePrefix: '+49'
          };
          
-         // Close voucher modal functionality
-         $('#closeVoucherModal, #closeVoucherForm').on('click', function() {
-             closeVoucherModal();
-         });
+                   // Close voucher modal functionality
+          $('#closeVoucherModal, #closeVoucherForm').on('click', function() {
+              closeVoucherModal();
+          });
          
-         // Close modal when clicking outside
-         $('#voucherModal').on('click', function(e) {
-             if (e.target === this) {
-                 closeVoucherModal();
-             }
-         });
+                 // Next step functionality for voucher modal
+        $('#voucherModal .next-step').on('click', function(e) {
+            e.stopPropagation(); // Prevent global handler from firing
+            var nextStep = $(this).data('next');
+            var currentStep = $(this).closest('.form-step').data('step');
+            
+            console.log('Voucher modal next button clicked - Current step:', currentStep, 'Next step:', nextStep);
+            
+            if (validateVoucherStep(currentStep)) {
+                goToVoucherStep(nextStep);
+            }
+        });
          
-         // Next step functionality for voucher modal
-         $('#voucherModal .next-step').on('click', function() {
-             var nextStep = $(this).data('next');
-             var currentStep = $(this).closest('.form-step').data('step');
-             
-             if (validateVoucherStep(currentStep)) {
-                 goToVoucherStep(nextStep);
-             }
-         });
+                 // Previous step functionality for voucher modal
+        $('#voucherModal .prev-step').on('click', function(e) {
+            e.stopPropagation(); // Prevent global handler from firing
+            var prevStep = $(this).data('prev');
+            console.log('Voucher modal prev button clicked - Going to step:', prevStep);
+            goToVoucherStep(prevStep);
+        });
          
-         // Previous step functionality for voucher modal
-         $('#voucherModal .prev-step').on('click', function() {
-             var prevStep = $(this).data('prev');
-             goToVoucherStep(prevStep);
-         });
-         
-         // Voucher selection
-         $('.voucher-radio').on('change', function() {
-             $('.voucher-option').removeClass('selected');
-             $(this).closest('.voucher-option').addClass('selected');
-             window.voucherData.voucher = $(this).val();
-             console.log('Voucher selected:', window.voucherData.voucher);
-         });
+                   // Voucher selection
+          $('.voucher-radio').on('change', function() {
+              $('.voucher-option').removeClass('selected');
+              $(this).closest('.voucher-option').addClass('selected');
+              window.voucherData.voucher = $(this).val();
+              
+              // Update the selected voucher display dynamically
+              var selectedVoucher = $(this).val();
+              var selectedVoucherLogo = $(this).closest('.voucher-option').find('img').attr('src');
+              
+              // Update the selected voucher logo in the amount selection step
+              $('#voucherModal .selected-provider img').attr('src', selectedVoucherLogo);
+              
+              console.log('Voucher selected:', selectedVoucher, 'Logo:', selectedVoucherLogo);
+          });
          
          // Amount selection for voucher modal
          $('#voucherModal .amount-option').on('click', function() {
@@ -828,51 +831,42 @@ $(document).ready(function() {
      /**
       * Validate voucher step
       */
-     function validateVoucherStep(stepNumber) {
-         switch(stepNumber) {
-             case 1:
-                 if (!window.voucherData.phoneNumber || window.voucherData.phoneNumber.length < 10) {
-                     showNotification('Fehler', 'Bitte geben Sie eine gültige Telefonnummer ein.', 'error');
-                     return false;
-                 }
-                 break;
-             case 2:
-                 if (!window.voucherData.voucher) {
-                     showNotification('Fehler', 'Bitte wählen Sie einen Gutschein aus.', 'error');
-                     return false;
-                 }
-                 break;
-             case 3:
-                 if (!window.voucherData.amount) {
-                     showNotification('Fehler', 'Bitte wählen Sie einen Betrag aus.', 'error');
-                     return false;
-                 }
-                 break;
-             case 4:
-                 if (!window.voucherData.paymentMethod) {
-                     showNotification('Fehler', 'Bitte wählen Sie eine Zahlungsmethode aus.', 'error');
-                     return false;
-                 }
-                 break;
-             case 5:
-                 if (!window.voucherData.verificationPhone || window.voucherData.verificationPhone.length < 10) {
-                     showNotification('Fehler', 'Bitte geben Sie eine gültige Verifikationsnummer ein.', 'error');
-                     return false;
-                 }
-                 break;
-         }
-         return true;
-     }
+         function validateVoucherStep(stepNumber) {
+        console.log('Validating voucher step:', stepNumber);
+        console.log('Current voucher data:', window.voucherData);
+        
+        // All validation removed - allow proceeding through all steps
+        switch(stepNumber) {
+            case 1:
+                // Phone number validation removed - allow proceeding without phone number
+                break;
+            case 2:
+                // Voucher validation removed - allow proceeding without voucher selection
+                break;
+            case 3:
+                // Amount validation removed - allow proceeding without amount selection
+                break;
+            case 4:
+                // Payment method validation removed - allow proceeding without payment selection
+                break;
+            case 5:
+                // Verification phone validation removed - allow proceeding without verification
+                break;
+        }
+        console.log('Voucher validation passed for step:', stepNumber);
+        return true;
+    }
      
-     /**
-      * Update voucher order summary
-      */
-     function updateVoucherOrderSummary() {
-         $('#voucherSummaryPhone').text('+49 ' + window.voucherData.phoneNumber);
-         $('#voucherSummaryAmount').text(window.voucherData.amount);
-         $('#voucherSummaryPayment').text(window.voucherData.paymentMethod);
-         $('#voucherSummaryTotal').text(window.voucherData.amount);
-     }
+           /**
+       * Update voucher order summary
+       */
+      function updateVoucherOrderSummary() {
+          $('#voucherSummaryPhone').text('+49 ' + window.voucherData.phoneNumber);
+          $('#voucherSummaryVoucher').text(window.voucherData.voucher);
+          $('#voucherSummaryAmount').text(window.voucherData.amount);
+          $('#voucherSummaryPayment').text(window.voucherData.paymentMethod);
+          $('#voucherSummaryTotal').text(window.voucherData.amount);
+      }
      
      /**
       * Reset voucher form
@@ -942,13 +936,11 @@ $(document).ready(function() {
             
             // Initialize
             setFlagFromSelect();
-            updatePlaceholder();
             updateHidden();
             
             // Events
             countryEl.addEventListener('change', () => {
                 setFlagFromSelect();
-                updatePlaceholder();
                 // Optionally prefill code visually if user started empty
                 if (!phoneEl.value.trim().length) {
                     phoneEl.value = '';
@@ -964,11 +956,11 @@ $(document).ready(function() {
             });
         }
         
-        // Initialize all country selectors
-        initializeCountrySelector('countrySelector1', 'flag1', 'phoneNumber', 'full_phone1');
-        initializeCountrySelector('countrySelector5', 'flag5', 'phone-verify', 'full_phone5');
-        initializeCountrySelector('countrySelector2', 'flag2', 'voucherPhoneNumber', 'full_phone2');
-        initializeCountrySelector('countrySelector5', 'flag5-voucher', 'voucher-phone-verify', 'full_phone5-voucher');
+                 // Initialize all country selectors
+         initializeCountrySelector('countrySelector1', 'flag1', 'phoneNumber', 'full_phone1');
+         initializeCountrySelector('countrySelector5', 'flag5', 'phone-verify', 'full_phone5');
+         initializeCountrySelector('countrySelector2', 'flag2', 'voucherPhoneNumber', 'full_phone2');
+         initializeCountrySelector('countrySelector5-voucher', 'flag5-voucher', 'voucher-phone-verify', 'full_phone5-voucher');
         
         // If used inside a form, ensure hidden full number is synced on submit
         document.addEventListener('submit', () => {
@@ -985,4 +977,37 @@ $(document).ready(function() {
         }, true);
     }
 
- });
+    function initMenuLinks() {
+        $('.nav-link').on('click', function(e) {
+            const section = $(this).data('section');
+            
+            // Handle special sections
+            if (section === 'guthaben') {
+                e.preventDefault();
+                setTimeout(function() {
+                    openFormModal();
+                }, 300);
+            } else if (section === 'gutscheine') {
+                e.preventDefault();
+                setTimeout(function() {
+                    openVoucherModal();
+                }, 300);
+            }
+        });
+    }
+
+    function initProductCards() {
+        // Provider cards - open form modal
+        $('.provider-card').on('click', function(e) {
+            e.preventDefault();
+            openFormModal();
+        });
+
+        // Voucher cards - open voucher modal
+        $('.voucher-card').on('click', function(e) {
+            e.preventDefault();
+            openVoucherModal();
+        });
+    }
+
+}); // End of $(document).ready()

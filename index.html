@@ -20,8 +20,8 @@
             <img src="assets/img/logo.png" alt="logo">
         </div>
         <nav class="nav desktop-nav">
-            <a href="#guthaben" class="nav-link">Guthaben aufladen</a>
-            <a href="#gutscheine" class="nav-link">Gutscheine kaufen</a>
+            <a href="#guthaben" class="nav-link" data-section="guthaben">Guthaben aufladen</a>
+            <a href="#gutscheine" class="nav-link" data-section="gutscheine">Gutscheine kaufen</a>
         </nav>
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <span></span>
@@ -81,7 +81,11 @@
         </div>
         <!-- 6-Step Form Modal for Guthaben -->
         <div id="formModal" class="form-modal">
-            <div class="form-modal-content">
+            <div class="form-modal-content no-scrollbar">
+                <!-- Close Button -->
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
                     <div class="progress-line">
@@ -106,9 +110,6 @@
                         <div class="step-circle" data-step="6">
                             <span>6</span>
                         </div>
-                        <div class="step-circle" data-step="7">
-                            <span>7</span>
-                        </div>
                     </div>
                 </div>
 
@@ -132,7 +133,7 @@
                                             <option value="netherlands" data-prefix="+31" data-iso="nl">Nederland (+31)</option>
                                         </select>
                                     </div>
-                                    <input type="tel" id="phoneNumber" placeholder="Handynummer eingeben"
+                                    <input type="tel" id="phoneNumber" placeholder=""
                                            class="phone-input">
                                     <input type="hidden" id="full_phone1" name="full_phone1">
                                 </div>
@@ -141,60 +142,8 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: Provider Selection -->
+                    <!-- Step 2: Amount Selection -->
                     <div class="form-step" data-step="2">
-                        <div class="step-content">
-                            <h2>Wählen Sie Ihren Anbieter</h2>
-                            <p>Wählen Sie Ihren Mobilfunkanbieter aus der Liste aus.</p>
-
-                            <div class="provider-selection">
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="vodafone" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/vudafone.png" alt="vodafone">
-                                    </div>
-                                </label>
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="o2" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/o2.png" alt="o2">
-                                    </div>
-                                </label>
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="lyca" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/lyca.png" alt="lyca">
-                                    </div>
-                                </label>
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="blau" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/blau.png" alt="blau">
-                                    </div>
-                                </label>
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="congstar" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/congstar.png" alt="congstar">
-                                    </div>
-                                </label>
-                                <label class="provider-option">
-                                    <input type="radio" name="provider" value="eplus" class="provider-radio">
-                                    <div class="provider-logo">
-                                        <img src="assets/img/e-plus.png" alt="eplus">
-                                    </div>
-                                </label>
-                            </div>
-
-                            <div class="step-buttons">
-                                <button class="btn btn-secondary prev-step" data-prev="1">Zurück</button>
-                                <button class="btn btn-primary next-step" data-next="3">Weiter</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Amount Selection -->
-                    <div class="form-step" data-step="3">
                         <div class="step-content">
                             <div class="amount-area">
                                 <div class="amount-wrapper">
@@ -242,16 +191,16 @@
                                              id="selectedProviderLogo">
                                     </div>
                                     <div class="step-buttons">
-                                        <button class="btn btn-secondary prev-step" data-prev="2">Zurück</button>
-                                        <button class="btn btn-primary next-step" data-next="4">Weiter</button>
+                                        <button class="btn btn-secondary prev-step" data-prev="1">Zurück</button>
+                                        <button class="btn btn-primary next-step" data-next="3">Weiter</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 4: Payment Method -->
-                    <div class="form-step" data-step="4">
+                    <!-- Step 3: Payment Method -->
+                    <div class="form-step" data-step="3">
                         <div class="step-content">
                             <div class="payment-area">
                                 <div class="payment-wrapper">
@@ -284,16 +233,16 @@
                                 </div>
                                 <div class="provider-information">
                                     <div class="step-buttons">
-                                        <button class="btn btn-secondary prev-step" data-prev="3">Zurück</button>
-                                        <button class="btn btn-primary next-step" data-next="5">Weiter</button>
+                                        <button class="btn btn-secondary prev-step" data-prev="2">Zurück</button>
+                                        <button class="btn btn-primary next-step" data-next="4">Weiter</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 5: Phone Verification -->
-                    <div class="form-step" data-step="5">
+                    <!-- Step 4: Phone Verification -->
+                    <div class="form-step" data-step="4">
                         <div class="step-content">
                             <div class="content-wrapper">
                                 <h2>Welche Nummer möchten Sie aufladen?</h2>
@@ -316,15 +265,15 @@
                                     <input type="hidden" id="full_phone5" name="full_phone5">
                                 </div>
                                 <div class="step-buttons">
-                                    <button class="btn btn-secondary prev-step" data-prev="4">Zurück</button>
-                                    <button class="btn btn-primary next-step" data-next="6">Weiter</button>
+                                    <button class="btn btn-secondary prev-step" data-prev="3">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="5">Weiter</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 6: Review -->
-                    <div class="form-step" data-step="6">
+                    <!-- Step 5: Review -->
+                    <div class="form-step" data-step="5">
                         <div class="step-content">
                             <h2 style="text-align: center">Bestellung abschließen</h2>
                             <div class="sms-input-group">
@@ -332,8 +281,8 @@
                                        placeholder='Bitte geben Sie hier Ihren SMS Code ein & bestätigen Sie mit "Weiter"'
                                        class="sms-input">
                                 <div class="step-buttons">
-                                    <button class="btn btn-secondary prev-step" data-prev="5">Zurück</button>
-                                    <button class="btn btn-primary next-step" data-next="7">Weiter</button>
+                                    <button class="btn btn-secondary prev-step" data-prev="4">Zurück</button>
+                                    <button class="btn btn-primary next-step" data-next="6">Weiter</button>
                                 </div>
                             </div>
 
@@ -344,7 +293,7 @@
                                 </div>
                                 <div class="summary-item">
                                     <span class="label">Anbieter:</span>
-                                    <span class="value" id="summaryProvider"></span>
+                                    <span class="value" id="summaryProvider">vodafone</span>
                                 </div>
                                 <div class="summary-item">
                                     <span class="label">Betrag:</span>
@@ -361,8 +310,8 @@
                         </div>
                     </div>
 
-                    <!-- Step 7: Confirmation -->
-                    <div class="form-step" data-step="7">
+                    <!-- Step 6: Confirmation -->
+                    <div class="form-step" data-step="6">
                         <div class="step-content" style="text-align: center">
                             <h2>Thank you for your order! </h2>
                             <p>We’ve received your purchase and are getting it ready to ship.</p>
@@ -376,7 +325,11 @@
 
         <!-- 7-Step Voucher Form Modal -->
         <div id="voucherModal" class="form-modal voucher-modal">
-            <div class="form-modal-content voucher-content">
+            <div class="form-modal-content no-scrollbar voucher-content">
+                <!-- Close Button -->
+                <button class="close-modal" id="closeVoucherModal">
+                    <i class="fas fa-times"></i>
+                </button>
                 <!-- Progress Indicator -->
                 <div class="progress-indicator">
                     <div class="progress-line">
@@ -428,7 +381,7 @@
                                             <option value="netherlands" data-prefix="+31" data-iso="nl">Nederland (+31)</option>
                                         </select>
                                     </div>
-                                    <input type="tel" id="voucherPhoneNumber" placeholder="Handynummer eingeben"
+                                    <input type="tel" id="voucherPhoneNumber" placeholder=""
                                            class="phone-input">
                                     <input type="hidden" id="full_phone2" name="full_phone2">
                                 </div>
@@ -608,7 +561,7 @@
                                 <div class="phone-input-group">
                                     <div class="country-select-wrapper">
                                         <div class="flag-display" id="flag5-voucher"></div>
-                                        <select id="countrySelector5" class="country-select">
+                                        <select id="countrySelector5-voucher" class="country-select">
                                             <option value="germany" data-prefix="+49" data-iso="de">Deutschland (+49)</option>
                                             <option value="austria" data-prefix="+43" data-iso="at">Österreich (+43)</option>
                                             <option value="switzerland" data-prefix="+41" data-iso="ch">Schweiz (+41)</option>
@@ -647,6 +600,10 @@
                                 <div class="summary-item">
                                     <span class="label">Aufzuladene Mobilnummer:</span>
                                     <span class="value" id="voucherSummaryPhone"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Gewählter Gutschein:</span>
+                                    <span class="value" id="voucherSummaryVoucher"></span>
                                 </div>
                                 <div class="summary-item">
                                     <span class="label">Gewähltes Guthaben:</span>
