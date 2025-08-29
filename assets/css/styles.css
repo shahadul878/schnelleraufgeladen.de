@@ -1037,6 +1037,39 @@ html {
     min-width: 200px;
 }
 
+/* Country Select Wrapper and Flag Icon */
+.country-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(224, 224, 224, 0.2);
+    min-width: 200px;
+}
+
+->
+
+/* Country Select Wrapper and Flag Icon */
+.country-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(224, 224, 224, 0.2);
+    min-width: 200px;
+}
+
+/* Visual separator between country selector and phone input */
+.country-select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+    z-index: 1;
+}
+
 .flag-icon-container {
     position: absolute;
     left: 15px;
@@ -1904,6 +1937,7 @@ body.mobile-menu-open {
     .form-modal-content {
         width: 95%;
         margin: 20px;
+        padding-top: 50px;
     }
 
     .progress-indicator {
@@ -2043,8 +2077,8 @@ body.mobile-menu-open {
 
     /* Close Modal Button Mobile */
     .close-modal {
-        top: 10px;
-        right: 10px;
+        top: 0;
+        right: 0;
         width: 40px;
         height: 40px;
         font-size: 1rem;
@@ -2053,6 +2087,27 @@ body.mobile-menu-open {
     /* Hero Section */
     .hero-text h1 {
         font-size: 2rem;
+    }
+
+    .phone-input-group {
+        flex-direction: column;
+    }
+
+->
+
+    .phone-input-group {
+        flex-direction: column;
+    }
+
+    /* Responsive separator for mobile */
+    .country-select-wrapper::after {
+        display: none;
+    }
+
+    .country-select-wrapper {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        min-width: 100%;
     }
 
     .progress-indicator {

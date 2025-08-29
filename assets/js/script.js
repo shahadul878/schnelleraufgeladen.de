@@ -494,8 +494,6 @@ $(document).ready(function() {
              var nextStep = $(this).data('next');
              var currentStep = $(this).closest('.form-step').data('step');
              
-             console.log('Form modal next button clicked - Current step:', currentStep, 'Next step:', nextStep);
-             
              if (validateCurrentStep(currentStep)) {
                  goToStep(nextStep);
              }
@@ -504,7 +502,6 @@ $(document).ready(function() {
                  // Previous step functionality for form modal only
          $('#formModal .prev-step').on('click', function() {
              var prevStep = $(this).data('prev');
-             console.log('Form modal prev button clicked - Going to step:', prevStep);
              goToStep(prevStep);
          });
         
@@ -533,6 +530,11 @@ $(document).ready(function() {
         $('#phoneNumber').on('input', function() {
             window.formData.phoneNumber = $(this).val();
         });
+
+        // Verification phone input for form modal
+        $('#phone-verify').on('input', function() {
+            window.formData.verificationPhone = $(this).val();
+        });
     }
     
     /**
@@ -557,9 +559,7 @@ $(document).ready(function() {
          /**
       * Go to specific step
       */
-     function goToStep(stepNumber) {
-         console.log('Going to step:', stepNumber);
-         
+     function goToStep(stepNumber) {        
          // Hide all steps
          $('.form-step').removeClass('active');
          
@@ -606,35 +606,45 @@ $(document).ready(function() {
         }
     }
     
-    /**
-     * Validate current step
-     */
-    function validateCurrentStep(stepNumber) {
-        switch(stepNumber) {
-            case 1:
-                if (!window.formData.phoneNumber || window.formData.phoneNumber.length < 10) {
-                    showNotification('Fehler', 'Bitte geben Sie eine gültige Telefonnummer ein.', 'error');
+         /**
+      * Validate current step
+      */
+     function validateCurrentStep(stepNumber) {
+         switch(stepNumber) {
+             case 1:
+                 if (!window.formData.phoneNumber || window.formData.phoneNumber.length < 10) {
+                     showNotification('Fehler', 'Bitte geben Sie eine gültige Telefonnummer ein.', 'error');
+                     return false;
+                 }
+                 break;
+             case 2:
+                 if (!window.formData.amount) {
+                     showNotification('Fehler', 'Bitte wählen Sie einen Betrag aus.', 'error');
+                     return false;
+                 }
+                 break;
+             case 3:
+                 if (!window.formData.paymentMethod) {
+                     showNotification('Fehler', 'Bitte wählen Sie eine Zahlungsmethode aus.', 'error');
+                     return false;
+                 }
+                 break;
+             case 4:
+                if (!window.formData.verificationPhone || window.formData.verificationPhone.trim() === '') {
+                    showNotification('Fehler', 'Bitte geben Sie eine gültige Verifikations-Telefonnummer ein.', 'error');
+                    return false;
+                }
+                
+                // Basic phone number format validation for verification phone
+                var verificationPhoneRegex = /^[0-9]{10,15}$/;
+                if (!verificationPhoneRegex.test(window.formData.verificationPhone.replace(/\s/g, ''))) {
+                    showNotification('Fehler', 'Bitte geben Sie eine gültige Verifikations-Telefonnummer ein.', 'error');
                     return false;
                 }
                 break;
-            case 2:
-                // Provider validation removed - allow proceeding without provider selection
-                break;
-            case 3:
-                if (!window.formData.amount) {
-                    showNotification('Fehler', 'Bitte wählen Sie einen Betrag aus.', 'error');
-                    return false;
-                }
-                break;
-            case 4:
-                if (!window.formData.paymentMethod) {
-                    showNotification('Fehler', 'Bitte wählen Sie eine Zahlungsmethode aus.', 'error');
-                    return false;
-                }
-                break;
-        }
-        return true;
-    }
+         }
+         return true;
+     }
     
     /**
      * Update order summary
@@ -662,6 +672,7 @@ $(document).ready(function() {
             provider: '',
             amount: '',
             paymentMethod: '',
+            verificationPhone: '',
             country: 'germany',
             countryCode: 'GER',
             phonePrefix: '+49'
@@ -708,8 +719,6 @@ $(document).ready(function() {
             var nextStep = $(this).data('next');
             var currentStep = $(this).closest('.form-step').data('step');
             
-            console.log('Voucher modal next button clicked - Current step:', currentStep, 'Next step:', nextStep);
-            
             if (validateVoucherStep(currentStep)) {
                 goToVoucherStep(nextStep);
             }
@@ -719,7 +728,6 @@ $(document).ready(function() {
         $('#voucherModal .prev-step').on('click', function(e) {
             e.stopPropagation(); // Prevent global handler from firing
             var prevStep = $(this).data('prev');
-            console.log('Voucher modal prev button clicked - Going to step:', prevStep);
             goToVoucherStep(prevStep);
         });
          
@@ -735,8 +743,6 @@ $(document).ready(function() {
               
               // Update the selected voucher logo in the amount selection step
               $('#voucherModal .selected-provider img').attr('src', selectedVoucherLogo);
-              
-              console.log('Voucher selected:', selectedVoucher, 'Logo:', selectedVoucherLogo);
           });
          
          // Amount selection for voucher modal
@@ -758,10 +764,10 @@ $(document).ready(function() {
              window.voucherData.phoneNumber = $(this).val();
          });
          
-         // Verification phone input
-         $('#verificationPhone').on('input', function() {
-             window.voucherData.verificationPhone = $(this).val();
-         });
+                   // Verification phone input
+          $('#voucher-phone-verify').on('input', function() {
+              window.voucherData.verificationPhone = $(this).val();
+          });
      }
      
      /**
@@ -831,31 +837,66 @@ $(document).ready(function() {
      /**
       * Validate voucher step
       */
-         function validateVoucherStep(stepNumber) {
-        console.log('Validating voucher step:', stepNumber);
-        console.log('Current voucher data:', window.voucherData);
+     function validateVoucherStep(stepNumber) {
         
-        // All validation removed - allow proceeding through all steps
-        switch(stepNumber) {
-            case 1:
-                // Phone number validation removed - allow proceeding without phone number
-                break;
-            case 2:
-                // Voucher validation removed - allow proceeding without voucher selection
-                break;
-            case 3:
-                // Amount validation removed - allow proceeding without amount selection
-                break;
-            case 4:
-                // Payment method validation removed - allow proceeding without payment selection
-                break;
-            case 5:
-                // Verification phone validation removed - allow proceeding without verification
-                break;
-        }
-        console.log('Voucher validation passed for step:', stepNumber);
-        return true;
-    }
+         switch(stepNumber) {
+             case 1:
+                 // Phone number validation
+                 if (!window.voucherData.phoneNumber || window.voucherData.phoneNumber.trim() === '') {
+                     showNotification('Fehler', 'Bitte geben Sie eine gültige Telefonnummer ein.', 'error');
+                     return false;
+                 }
+                 
+                 // Basic phone number format validation (German format)
+                 var phoneRegex = /^[0-9]{10,15}$/;
+                 if (!phoneRegex.test(window.voucherData.phoneNumber.replace(/\s/g, ''))) {
+                     showNotification('Fehler', 'Bitte geben Sie eine gültige Telefonnummer ein.', 'error');
+                     return false;
+                 }
+                 break;
+                 
+             case 2:
+                 // Voucher validation
+                 if (!window.voucherData.voucher || window.voucherData.voucher.trim() === '') {
+                     showNotification('Fehler', 'Bitte wählen Sie einen Gutschein aus.', 'error');
+                     return false;
+                 }
+                 break;
+                 
+             case 3:
+                 // Amount validation
+                 if (!window.voucherData.amount || window.voucherData.amount.trim() === '') {
+                     showNotification('Fehler', 'Bitte wählen Sie einen Betrag aus.', 'error');
+                     return false;
+                 }
+                 break;
+                 
+             case 4:
+                 // Payment method validation
+                 if (!window.voucherData.paymentMethod || window.voucherData.paymentMethod.trim() === '') {
+                     showNotification('Fehler', 'Bitte wählen Sie eine Zahlungsmethode aus.', 'error');
+                     return false;
+                 }
+                 break;
+                 
+             case 5:
+                 // Verification phone validation
+                 if (!window.voucherData.verificationPhone || window.voucherData.verificationPhone.trim() === '') {
+                     showNotification('Fehler', 'Bitte geben Sie eine gültige Verifikations-Telefonnummer ein.', 'error');
+                     return false;
+                 }
+                 
+                 // Basic phone number format validation for verification phone
+                 var verificationPhoneRegex = /^[0-9]{10,15}$/;
+                 if (!verificationPhoneRegex.test(window.voucherData.verificationPhone.replace(/\s/g, ''))) {
+                     showNotification('Fehler', 'Bitte geben Sie eine gültige Verifikations-Telefonnummer ein.', 'error');
+                     return false;
+                 }
+                 break;
+         }
+         
+         return true;
+     }
      
            /**
        * Update voucher order summary
